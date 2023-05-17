@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from apps.categories.models import Category
+
 User = get_user_model()
 
 # Create your models here.
@@ -25,6 +27,12 @@ class Post(models.Model):
     image = models.ImageField(
         upload_to='post_images/',
         verbose_name="Фотография"
+    )
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL,
+        related_name="category_posts",
+        verbose_name="Категория",
+        blank=True, null=True
     )
     created = models.DateTimeField(
         auto_now_add=True,
