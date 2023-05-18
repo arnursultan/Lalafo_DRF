@@ -34,6 +34,10 @@ class Post(models.Model):
         verbose_name="Категория",
         blank=True, null=True
     )
+    is_active = models.BooleanField(
+        default=True, 
+        verbose_name="Статус поста"
+    )
     created = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Дата создания"
@@ -45,3 +49,22 @@ class Post(models.Model):
     class Meta:
         verbose_name = "Пост"
         verbose_name_plural = "Посты"
+
+class FavoritePost(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE,
+        related_name='user_favorites',
+        verbose_name='Пользователь'
+    )
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE,
+        related_name='post_favorite_users',
+        verbose_name='Пост'
+    )
+
+    def __str__(self):
+        return f"{self.user} {self.post}"
+    
+    class Meta:
+        verbose_name = 'Избранное'
+        verbose_name_plural = 'Избранные'
