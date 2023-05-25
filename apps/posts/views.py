@@ -21,7 +21,10 @@ class PostAPIViewSet(GenericViewSet,
 
     def perform_create(self, serializer):
         post = serializer.save(user=self.request.user)
-        asyncio.run(send_message())
+        asyncio.run(send_message(-980643577, f"""Заявка на модерацию {post.id}
+Название: {post.title}
+Описание: {post.description}
+Создан: {post.created}"""))
         return post
     
     def get_permissions(self):
