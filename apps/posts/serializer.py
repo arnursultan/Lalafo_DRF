@@ -6,7 +6,8 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post 
         fields = ('id', 'title', 'description', 'price',
-                  'image', 'is_active', 'created', 'user', 'category')
+                  'image', 'is_active', 'created', 
+                  'user', 'category', 'is_checked')
         
 class FavoritePostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,7 +21,8 @@ class PostDetailSerializer(serializers.ModelSerializer):
         model = Post 
         fields = ('id', 'title', 'description', 'price',
                   'image', 'is_active', 'created', 'user', 
-                  'category', 'post_favorite_users', 'count_favorites')
+                  'category', 'is_checked', 
+                  'post_favorite_users', 'count_favorites')
         
     def get_count_favorites(self, obj):
         return obj.post_favorite_users.all().count()

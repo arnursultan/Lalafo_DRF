@@ -38,6 +38,10 @@ class Post(models.Model):
         default=True, 
         verbose_name="Статус поста"
     )
+    is_checked = models.BooleanField(
+        default=False,
+        verbose_name="Ручная проверка"
+    )
     created = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Дата создания"

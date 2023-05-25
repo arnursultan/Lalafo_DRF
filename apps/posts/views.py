@@ -1,10 +1,12 @@
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins
 from rest_framework.permissions import AllowAny, IsAuthenticated
+import asyncio
 
 from apps.posts.models import Post, FavoritePost
 from apps.posts.serializer import PostSerializer, FavoritePostSerializer, PostDetailSerializer
 from apps.posts.permission import PostPermission
+from apps.telegram.views import send_message
 
 # Create your views here.
 class PostAPIViewSet(GenericViewSet,
@@ -18,7 +20,9 @@ class PostAPIViewSet(GenericViewSet,
     permission_classes = (IsAuthenticated, )
 
     def perform_create(self, serializer):
-        return serializer.save(user=self.request.user)
+        post = serializer.save(user=self.request.user)
+        asyncio.run(send_message())
+        return post
     
     def get_permissions(self):
         if self.action in ('create', ):
